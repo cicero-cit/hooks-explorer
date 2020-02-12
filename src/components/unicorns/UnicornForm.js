@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-function UnicornForm({ onSubmit }) {
+function UnicornForm({ onSubmit, onPut, editingItem }) {
     const [name, setName] = useState('');
     const [age, setAge] = useState(0);
     const [colour, setColour] = useState('');
 
+    useEffect(() => {
+        if(editingItem._id){
+            setName(editingItem.name);
+            setAge(editingItem.age);
+            setColour(editingItem.colour);
+        }
+    }, [editingItem])
+
     async function handleSubmit(e) {
         e.preventDefault();
+        const obj = { name, age, colour };
 
-        await onSubmit({
-            name,
-            age,
-            colour,
-        });
+        if(editingItem._id){
+            await onPut(obj);
+        }else{
+            await onSubmit(obj);
+        }
 
         setName('');
         setAge('');
