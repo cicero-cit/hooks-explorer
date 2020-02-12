@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import api from '../../API';
 
-import './../../assets/css/global.css';
-import './../../assets/css/App.css';
-import './../../assets/css/Sidebar.css';
-import './../../assets/css/Main.css';
-
 import UnicornForm from './UnicornForm';
 import UnicornItem from './UnicornItem';
 import ReducerUnicorn, { INITIAL_STATE } from './ReducerUnicorn';
