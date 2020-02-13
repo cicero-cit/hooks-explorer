@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import TrashIcon from './../../assets/svg/trash.svg';
 import EditIcon from './../../assets/svg/edit.svg';
 import { deleteUnicorn, getAllUnicorn } from './../ActionsUnicorn';
-import './styles.css';
+import './../../assets/css/ItemStyle.css';
 
 function UnicornItem({ unicorn, handleClickId }) {
   const editing = useSelector(state => state.ReducerUnicorn.item);

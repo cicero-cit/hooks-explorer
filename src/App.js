@@ -1,6 +1,6 @@
 import React from 'react';
 
-import UnicornView from './components/unicorns/UnicornView';
+import UnicornView from './components/unicorns-state/UnicornView';
 
 import './assets/css/global.css';
 import './assets/css/App.css';

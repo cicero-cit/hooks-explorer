@@ -2,56 +2,76 @@ import React, { Component } from 'react';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import store from './../../store';
 import {
   deleteUnicorn,
   getAllUnicorn,
   getByIdUnicorn,
   postUnicorn,
   putUnicorn
-} from './ActionsUnicorn';
+} from './../ActionsUnicorn';
+import UnicornItem from '../unicorns/UnicornItem';
+import UnicornForm from './UnicornForm';
+
+const INITIAL_STATE = {
+  list: []
+}
 
 class UnicornView extends Component {
-  async componentDidMount(){
+  state = INITIAL_STATE;
+
+  componentDidMount(){
+    this.loadUnicorns();
+  }
+
+  componentDidUpdate(prev){
+    const { list } = this.props;
+
+    if(prev.list !== list){
+      this.setState({ list });
+    }
+  }
+
+  loadUnicorns = async () => {
     const { getAllUnicorn } = this.props;
-    await getAllUnicorn();
-    this.setState({
-      list: this.props.list
-    })
+    store.dispatch(await getAllUnicorn());
+    const { list } = this.props;
+    this.setState({ list });
+  }
+
+  handleClickId = (id) => {
+    const { list } = this.state;
+    this.setState({ list: list.filter(item => item._id !== id) });
+    store.dispatch(getByIdUnicorn(id));
   }
 
   render(){
     const { list } = this.state;
     return (
       <div id="app">
-        {/* <aside>
-          <strong>New Unicorn</strong>
-            <UnicornForm 
-              onSubmit={handleAddUnicorn} 
-              onPut={handlePutUnicorn} 
-              editingItem={editingItem}
-            />
+        <aside>
+          <strong>New Guys</strong>
+            <UnicornForm />
         </aside>
   
         <main>
           <ul>
-            {unicorns.list.map(unicorn => (
-              <UnicornItem 
+            {list.map(unicorn => (
+              <UnicornItem
                 key={unicorn._id} 
                 unicorn={unicorn} 
-                handleDelete={handleDelete}
-                handleClickId={handleClickId}
-                editingItem={editingItem._id}
+                handleClickId={this.handleClickId}
               />
             ))}
           </ul>
-        </main> */}
+        </main> 
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  list: state.ReducerStateUnicorn.list,
+  list: state.ReducerUnicorn.list,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
