@@ -1,7 +1,13 @@
 export const INITIAL_STATE = {
     list: [],
     status: 0,
-    message: ''
+    message: '',
+    item: { 
+        _id: '',
+        name: '',
+        age: 0,
+        colour: ''
+    }
 }
 
 const ReducerUnicorn = (state = INITIAL_STATE, action) => {
@@ -21,19 +27,18 @@ const ReducerUnicorn = (state = INITIAL_STATE, action) => {
         case 'DELETE_SUCCESS':
             return {
                 ...state,
-                list: state.list.filter(item => item._id !== action.data._id),
                 status: 1,
                 message: "Delete with success"
             }
-        case 'CLICK_EDIT':
+        case 'GET_BY_ID_SUCCESS':
             return {
                 ...state,
-                list: state.list.filter(item => item._id !== action.id)
+                item: action.data
             }
         case 'PUT_SUCCESS':
             return {
                 ...state,
-                list: state.list.filter(item => item._id !== action.id),
+                item: INITIAL_STATE.item,
                 status: 1,
                 message: "Updated with success"
             }

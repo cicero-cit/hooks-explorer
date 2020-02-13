@@ -1,28 +1,48 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-function UnicornForm({ onSubmit, onPut, editingItem }) {
+import { getAllUnicorn, postUnicorn, putUnicorn } from './../ActionsUnicorn';
+
+function UnicornForm() {
+    const unicorn = useSelector(state => state.ReducerUnicorn.item);
+    const dispatch = useDispatch();
+
     const [name, setName] = useState('');
     const [age, setAge] = useState(0);
     const [colour, setColour] = useState('');
 
     useEffect(() => {
-        if(editingItem._id){
-            setName(editingItem.name);
-            setAge(editingItem.age);
-            setColour(editingItem.colour);
+        if (unicorn._id) {
+            setName(unicorn.name);
+            setAge(unicorn.age);
+            setColour(unicorn.colour);
         }
-    }, [editingItem])
+    }, [unicorn]);
+
+    async function handlePostUnicorn(unicorn) {
+        dispatch(await postUnicorn(unicorn));
+        dispatch(getAllUnicorn());
+    }
+
+    async function handlePutUnicorn(id, unicorn){
+      dispatch(await putUnicorn(id, unicorn));
+      dispatch(getAllUnicorn());
+    }
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const obj = { name, age, colour };
+        const newUnicorn = { name, age, colour };
 
-        if(editingItem._id){
-            await onPut(obj);
-        }else{
-            await onSubmit(obj);
+        if (unicorn._id) {
+            await handlePutUnicorn(unicorn._id, newUnicorn);
+        } else {
+            await handlePostUnicorn(newUnicorn);
         }
 
+        resetFields();
+    }
+
+    const resetFields = () => {
         setName('');
         setAge('');
         setColour('');

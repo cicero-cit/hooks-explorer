@@ -1,64 +1,43 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import api from '../../API';
+import React, { useState, useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 import UnicornForm from './UnicornForm';
 import UnicornItem from './UnicornItem';
-import ReducerUnicorn, { INITIAL_STATE } from './ReducerUnicorn';
+import { getAllUnicorn, getByIdUnicorn } from './../ActionsUnicorn';
 
 function UnicornView() {
-  const [unicorns, dispatch] = useReducer(ReducerUnicorn, INITIAL_STATE);
-  const [editingItem, setEditingItem] = useState({});
+  const [list, setList] = useState([]);
+
+  const unicorns = useSelector(state => state.ReducerUnicorn.list);
+  const dispatch = useDispatch();
   
-  useEffect(() => { 
-    loadUnicorns();
-  }, []);
-
-  async function loadUnicorns() {
-    const { data } = await api.get('/unicorns');
-    await dispatch({ type: 'GET_SUCCESS', data });
-  }
-
-  async function handleAddUnicorn(unicorn) {
-    const { data } = await api.post('/unicorns', unicorn);
-    dispatch({ type: 'POST_SUCCESS', data });
-  }
-
-  async function handleDelete(_id){
-    const data = await api.delete(`/unicorns/${_id}`);
-    dispatch({ type: 'DELETE_SUCCESS', data: {...data, _id} });
+  useEffect(() => loadUnicorns(), []);
+  useEffect(() => setList(unicorns), [unicorns])
+  
+  function loadUnicorns() {
+    dispatch(getAllUnicorn());
   }
 
   function handleClickId(id){
-    dispatch({ type: 'CLICK_EDIT', id });
-    setEditingItem(unicorns.list.find(item => item._id ===id));
+    setList(list.filter(item => item._id !== id));
+    dispatch(getByIdUnicorn(id));
   }
 
-  async function handlePutUnicorn(unicorn){
-    const data = await api.put(`/unicorns/${editingItem._id}`, unicorn);
-    dispatch({ type: 'PUT_SUCCESS', data });
-    loadUnicorns();
-  }
-  
   return (
     <div id="app">
       <aside>
-        <strong>New Unicorn</strong>
-          <UnicornForm 
-            onSubmit={handleAddUnicorn} 
-            onPut={handlePutUnicorn} 
-            editingItem={editingItem}
-          />
+        <strong>New Guy</strong>
+          <UnicornForm />
       </aside>
 
       <main>
         <ul>
-          {unicorns.list.map(unicorn => (
+          {list.map(unicorn => (
             <UnicornItem 
               key={unicorn._id} 
-              unicorn={unicorn} 
-              handleDelete={handleDelete}
+              unicorn={unicorn}
               handleClickId={handleClickId}
-              editingItem={editingItem._id}
             />
           ))}
         </ul>

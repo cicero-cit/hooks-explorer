@@ -1,9 +1,7 @@
 import { combineReducers } from 'redux';
 
-import ReducerUnicorn from './components/unicorns/ReducerUnicorn';
-import ReducerStateUnicorn from './components/unicorns-state/ReducerStateUnicorn';
+import ReducerUnicorn from './components/ReducerUnicorn';
 
 export default combineReducers({ 
-    ReducerUnicorn,
-    ReducerStateUnicorn
+    ReducerUnicorn
 });
