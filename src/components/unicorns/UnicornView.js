@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,12 +12,12 @@ function UnicornView() {
   const unicorns = useSelector(state => state.ReducerUnicorn.list);
   const dispatch = useDispatch();
   
-  useEffect(() => loadUnicorns(), []);
-  useEffect(() => setList(unicorns), [unicorns])
+  useEffect(() => loadUnicorns);
+  useEffect(() => setList(unicorns), [unicorns]);
   
-  function loadUnicorns() {
+  const loadUnicorns = useMemo(() => {
     dispatch(getAllUnicorn());
-  }
+  }, [dispatch])
 
   function handleClickId(id){
     setList(list.filter(item => item._id !== id));

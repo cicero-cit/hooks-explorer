@@ -4,11 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import store from './../../store';
 import {
-  deleteUnicorn,
   getAllUnicorn,
-  getByIdUnicorn,
-  postUnicorn,
-  putUnicorn
+  getByIdUnicorn
 } from './../ActionsUnicorn';
 import UnicornItem from '../unicorns/UnicornItem';
 import UnicornForm from './UnicornForm';
@@ -76,10 +73,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAllUnicorn,
-  getByIdUnicorn,
-  postUnicorn,
-  deleteUnicorn,
-  putUnicorn
+  getByIdUnicorn
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(UnicornView);

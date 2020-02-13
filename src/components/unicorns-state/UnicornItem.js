@@ -4,7 +4,6 @@ import store from './../../store';
 import TrashIcon from './../../assets/svg/trash.svg';
 import EditIcon from './../../assets/svg/edit.svg';
 import { deleteUnicorn, getAllUnicorn } from './../ActionsUnicorn';
-import './../../assets/css/ItemStyle.css';
 
 class UnicornItem {
   handleDelete = (_id) => {
