@@ -8,7 +8,7 @@ function UnicornForm() {
     const dispatch = useDispatch();
 
     const [name, setName] = useState('');
-    const [age, setAge] = useState(0);
+    const [age, setAge] = useState('');
     const [colour, setColour] = useState('');
 
     useEffect(() => {
@@ -58,6 +58,7 @@ function UnicornForm() {
                     required
                     value={name}
                     onChange={e => setName(e.target.value)}
+                    data-testid="form-unicorn-name"
                 />
             </div>
 
@@ -70,6 +71,7 @@ function UnicornForm() {
                     required
                     value={age}
                     onChange={e => setAge(e.target.value)}
+                    data-testid="form-unicorn-age"
                 />
             </div>
 
@@ -81,10 +83,11 @@ function UnicornForm() {
                     required
                     value={colour}
                     onChange={e => setColour(e.target.value)}
+                    data-testid="form-unicorn-colour"
                 />
             </div>
 
-            <button type="submit">Save</button>
+            <button type="submit" data-testid="form-unicorn-submit">Save</button>
         </form>
     );
 }
