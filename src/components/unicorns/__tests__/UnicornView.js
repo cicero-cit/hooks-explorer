@@ -2,37 +2,22 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
-import UnicornForm from './../UnicornForm';
+import UnicornView from './../UnicornView';
 import store from './../../../store';
 
 jest.mock('../../ActionsUnicorn');
 const actions = require('../../ActionsUnicorn');
 
-describe("Unicorn form testing hooks", () => {
-  const MockedUnicorn = {
-    _id: 1,
-    name: "Walbert Bros",
-    age: 71,
-    colour: "Light Grey"
-  }
+describe("Unicorn view testing hooks", () => {
   
   const setup = () => {
     const utils = render(
       <Provider store={store}>
-        <UnicornForm />
+        <UnicornView />
       </Provider>
     );
   
-    const name = utils.getByTestId("form-unicorn-name");
-    const age = utils.getByTestId("form-unicorn-age");
-    const colour = utils.getByTestId("form-unicorn-colour");
-    const btnSubmit = utils.getByTestId("form-unicorn-submit");
-  
     return {
-      name,
-      age,
-      colour,
-      btnSubmit,
       ...utils,
     }
   }
@@ -91,18 +76,4 @@ describe("Unicorn form testing hooks", () => {
     await expect(actions.postUnicorn.mock.calls.length).toBe(1);
     expect(actions.getAllUnicorn.mock.calls.length).toBe(1);
   });
-
-//   it("On put unicorn", async () => {
-//     await store.dispatch({ type: 'GET_BY_ID_SUCCESS', data: MockedUnicorn });
-
-//     const { btnSubmit } = setup();
-
-//     actions.putUnicorn.mockReturnValue(() => Promise.resolve());
-//     actions.getAllUnicorn.mockReturnValue(() => Promise.resolve());
-
-//     fireEvent.click(btnSubmit);
-    
-//     await expect(actions.putUnicorn.mock.calls.length).toBe(1);
-//     expect(actions.getAllUnicorn.mock.calls.length).toBe(2);
-//   });
 })

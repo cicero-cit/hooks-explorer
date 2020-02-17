@@ -42,9 +42,11 @@ const ReducerUnicorn = (state = INITIAL_STATE, action) => {
                 status: 1,
                 message: "Updated with success"
             }
+        case 'RESET':
+            return INITIAL_STATE;
     
         default:
-            return INITIAL_STATE;;
+            return state;
     }
 }
 

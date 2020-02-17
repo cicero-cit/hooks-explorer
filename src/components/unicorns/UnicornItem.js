@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import TrashIcon from './../../assets/svg/trash.svg';
@@ -18,19 +18,26 @@ function UnicornItem({ unicorn, handleClickId }) {
     <li className="unicorn-item">
       <header>
         <div className="user-info">
-          <strong>{unicorn.name}</strong>  
-          <span>Age: {unicorn.age}</span>
+          <strong data-testid="form-unicorn-name">{unicorn.name}</strong>  
+          <span data-testid="form-unicorn-age">Age: {unicorn.age}</span>
         </div>              
       </header>
-      <p>Color: {unicorn.colour}</p>
-      <button onClick={() => handleDelete(unicorn._id)}>
+      <p data-testid="form-unicorn-colour">Color: {unicorn.colour}</p>
+      <button 
+        onClick={() => handleDelete(unicorn._id)}
+        data-testid="form-unicorn-btn-delete"
+      >
         <img src={TrashIcon} height="15" alt="delete icon"/>
       </button>
-      <button onClick={() => handleClickId(unicorn._id)} disabled={!!editing._id}>
+      <button 
+        onClick={() => handleClickId(unicorn._id)} 
+        disabled={!!editing._id}
+        data-testid="form-unicorn-btn-edit"
+      >
         <img src={EditIcon} height="15" alt="edit icon"/>
       </button>
     </li>
   );
 }
 
-export default UnicornItem;
+export default memo(UnicornItem);
